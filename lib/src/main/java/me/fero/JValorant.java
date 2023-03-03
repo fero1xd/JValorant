@@ -1,60 +1,41 @@
 package me.fero;
 
-import me.fero.IO.Request;
-import me.fero.IO.Response;
+import me.fero.api.AccountDataResult;
+import me.fero.errors.ApiError;
+import me.fero.api.ServerStatusResult;
+import me.fero.io.Request;
+import me.fero.io.Response;
 import me.fero.enums.Region;
 
 
 public class JValorant {
-    private String apiKey;
-    private String apiUrl;
+    private final String apiUrl = Config.unofficialUrl;
 
     /**
-    * Default Constructor will use unofficial Valorant api url
+    * Default Constructor
     */
     public JValorant() {
-        this.apiUrl = Config.unofficialUrl;
     }
 
 
     /**
-     * Constructor to be used with Api key
-     * This will make the api use official Valorant api
-     * @param apiKey The api key to be used
-     * @throws IllegalArgumentException When Api key is an empty string
+     * Returns server status for the given region
+     * @param region The region for which the status has to be returned
+     * @throws ApiError if bad response
      */
-    public JValorant(String apiKey) {
-        if(apiKey.trim().equals("")) {
-            throw new IllegalArgumentException("Api key cannot be empty");
-        }
-
-        this.apiKey = apiKey;
+    public ServerStatusResult getServerStatus(Region region) throws ApiError {
+        Response response = Request.get(this.apiUrl + "/status/" + region.name().toLowerCase());
+        return new ServerStatusResult(response, response.getJson());
     }
-
 
     /**
-     * Sets the api key
-     * This will make the client use the official valorant api
-     * @param apiKey The api key to be used
+     * Get general account data like puuid and account level
+     * @param name Account name
+     * @param tag Account tag
+     * @throws ApiError if bad response
      */
-    public void setApiKey(String apiKey) {
-        if(apiKey.trim().equals("")) {
-            throw new IllegalArgumentException("Api key cannot be empty");
-        }
-
-        this.apiKey = apiKey;
-    }
-
-    public void getServerStatus(Region region) {
-        try {
-            // Response response = Request.get(this.apiUrl + "/status/" + region.name().toLowerCase());
-            Response response = Request.get(Config.getOfficialUrl(region) + "/val/status/v1/platform-data");
-
-            System.out.println(response.getCode());
-            System.out.println(response.getRawResponse());
-            System.out.println(response.getJson());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public AccountDataResult getAccountData(String name, String tag) throws ApiError {
+        Response response = Request.get(this.apiUrl + "/account/" + name + "/" + tag);
+        return new AccountDataResult(response, response.getJson());
     }
 }

@@ -1,13 +1,18 @@
-package me.fero.IO;
+package me.fero.io;
+
+import me.fero.errors.ApiError;
 
 import java.io.BufferedReader;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static me.fero.Utils.isError;
+
 public class Request {
 
-    public static Response get(String baseUrl, String apiKey) {
+    public static Response get(String baseUrl) throws ApiError {
         try {
             URL url = new URL(baseUrl);
 
@@ -18,11 +23,19 @@ public class Request {
             urlConnection.setDoOutput(true);
             urlConnection.setDoInput(true);
 
-            if(apiKey != null) {
-                urlConnection.setRequestProperty("X-Riot-Token", apiKey);
+            urlConnection.connect();
+
+            int responseCode = urlConnection.getResponseCode();
+            InputStream inputStream;
+
+            if(isError(responseCode)) {
+                inputStream = urlConnection.getErrorStream();
+            }
+            else {
+                inputStream = urlConnection.getInputStream();
             }
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
             StringBuilder builder = new StringBuilder();
 
             String line;
@@ -31,12 +44,12 @@ public class Request {
             }
             reader.close();
             return new Response(urlConnection.getResponseCode(), builder.toString());
-        } catch (Exception e) {
+        }
+        catch(ApiError e) {
+            throw e;
+        }
+        catch (Exception e) {
             return new Response(1,"Exception caught " + e.getMessage());
         }
-    }
-
-    public static Response get(String baseUrl) {
-        return get(baseUrl, null);
     }
 }
