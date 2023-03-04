@@ -11,9 +11,10 @@ public class AccountDataResult extends ApiResponse {
 
     private final AccountData accountData;
 
-    public AccountDataResult(Response response, JSONObject jsonObject) {
+    public AccountDataResult(Response response) {
         super(response);
 
+        JSONObject jsonObject = response.getJson();
         JSONObject data = (JSONObject) jsonObject.get("data");
 
         String puuid = data.get("puuid").toString();

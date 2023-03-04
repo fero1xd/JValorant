@@ -3,6 +3,7 @@ package me.fero.io;
 import me.fero.errors.ApiError;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -12,44 +13,37 @@ import static me.fero.Utils.isError;
 
 public class Request {
 
-    public static Response get(String baseUrl) throws ApiError {
-        try {
-            URL url = new URL(baseUrl);
+    public static Response get(String baseUrl) throws ApiError, IOException {
 
-            HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
+        URL url = new URL(baseUrl);
 
-            urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("accept", "application/json");
-            urlConnection.setDoOutput(true);
-            urlConnection.setDoInput(true);
+        HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
-            urlConnection.connect();
+        urlConnection.setRequestMethod("GET");
+        urlConnection.setRequestProperty("accept", "application/json");
+        urlConnection.setDoOutput(true);
+        urlConnection.setDoInput(true);
 
-            int responseCode = urlConnection.getResponseCode();
-            InputStream inputStream;
+        urlConnection.connect();
 
-            if(isError(responseCode)) {
-                inputStream = urlConnection.getErrorStream();
-            }
-            else {
-                inputStream = urlConnection.getInputStream();
-            }
+        int responseCode = urlConnection.getResponseCode();
+        InputStream inputStream;
 
-            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-            StringBuilder builder = new StringBuilder();
-
-            String line;
-            while((line = reader.readLine()) != null) {
-                builder.append(line).append("\n");
-            }
-            reader.close();
-            return new Response(urlConnection.getResponseCode(), builder.toString());
+        if(isError(responseCode)) {
+            inputStream = urlConnection.getErrorStream();
         }
-        catch(ApiError e) {
-            throw e;
+        else {
+            inputStream = urlConnection.getInputStream();
         }
-        catch (Exception e) {
-            return new Response(1,"Exception caught " + e.getMessage());
+
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        StringBuilder builder = new StringBuilder();
+
+        String line;
+        while((line = reader.readLine()) != null) {
+            builder.append(line).append("\n");
         }
+        reader.close();
+        return new Response(urlConnection.getResponseCode(), builder.toString());
     }
 }

@@ -18,6 +18,7 @@ public class Response {
     private int code;
     private String rawResponse;
     private JSONObject json;
+    private JSONArray jsonArray;
 
     private Error httpError;
     private ErrorStructure[] errors;
@@ -35,7 +36,13 @@ public class Response {
 
             if(code == 1) return;
 
-            this.json = (JSONObject) Config.parser.parse(response);
+            Object parse = Config.parser.parse(response);
+            if(parse instanceof JSONArray) {
+                this.jsonArray = (JSONArray) parse;
+            }
+            else {
+                this.json = (JSONObject) parse;
+            }
 
             if(isError(code)) {
                 this.httpError = switch (code) {
@@ -75,6 +82,10 @@ public class Response {
 
     public JSONObject getJson() {
         return json;
+    }
+
+    public JSONArray getJsonArray() {
+        return jsonArray;
     }
 
     public int getCode() {

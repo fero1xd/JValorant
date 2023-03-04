@@ -15,9 +15,10 @@ import org.json.simple.parser.ParseException;
 public class ServerStatusResult extends ApiResponse {
     private final ServerStatus serverStatus;
 
-    public ServerStatusResult(Response response, JSONObject jsonObject) {
+    public ServerStatusResult(Response response) {
         super(response);
 
+        JSONObject jsonObject = response.getJson();
         JSONObject data = (JSONObject) jsonObject.get("data");
 
         JSONArray maintenancesRaw = (JSONArray) data.get("maintenances");
