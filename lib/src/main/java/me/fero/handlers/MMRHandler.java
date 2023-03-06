@@ -6,12 +6,13 @@ import me.fero.api.UserMMRResult;
 import me.fero.entities.account.AccountData;
 import me.fero.enums.Region;
 import me.fero.errors.ApiError;
+import me.fero.interfaces.IMMRHandler;
 import me.fero.io.Request;
 import me.fero.io.Response;
 
 import java.io.IOException;
 
-public class MMRHandler {
+public class MMRHandler implements IMMRHandler {
 
     /**
      * Get mmr data about an user like current tier and last mmr change
@@ -23,7 +24,7 @@ public class MMRHandler {
      * @throws IOException if something very bad happens
      */
     public UserMMRResult getMMRData(String name, String tag, Region region) throws ApiError, IOException {
-        Response response = Request.get(Config.unofficialUrl + "/mmr/" + region.name().toLowerCase() + "/" + name + "/" + tag);
+        Response response = Request.get(Config.unofficialUrlV1 + "/mmr/" + region.name().toLowerCase() + "/" + name + "/" + tag);
         return new UserMMRResult(response);
     }
 
@@ -36,7 +37,7 @@ public class MMRHandler {
      * @throws IOException if something very bad happens
      */
     public UserMMRResult getMMRData(String puuid, Region region) throws ApiError, IOException {
-        Response response = Request.get(Config.unofficialUrl + "/by-puuid/mmr/" + region.name().toLowerCase() + "/" + puuid);
+        Response response = Request.get(Config.unofficialUrlV1 + "/by-puuid/mmr/" + region.name().toLowerCase() + "/" + puuid);
         return new UserMMRResult(response);
     }
 
@@ -61,7 +62,7 @@ public class MMRHandler {
      * @throws IOException if something very bad happens
      */
     public UserMMRHistoryResult getMMRHistory(String name, String tag, Region region) throws ApiError, IOException {
-        Response response = Request.get(Config.unofficialUrl + "/mmr-history/" + region.name().toLowerCase() + "/" +
+        Response response = Request.get(Config.unofficialUrlV1 + "/mmr-history/" + region.name().toLowerCase() + "/" +
                 name + "/" + tag);
         return new UserMMRHistoryResult(response);
     }
@@ -75,7 +76,7 @@ public class MMRHandler {
      * @throws IOException if something very bad happens
      */
     public UserMMRHistoryResult getMMRHistory(String puuid, Region region) throws ApiError, IOException {
-        Response response = Request.get(Config.unofficialUrl + "/by-puuid/mmr-history/" + region.name().toLowerCase() + "/" +
+        Response response = Request.get(Config.unofficialUrlV1 + "/by-puuid/mmr-history/" + region.name().toLowerCase() + "/" +
                 puuid);
         return new UserMMRHistoryResult(response);
     }

@@ -14,7 +14,7 @@ import java.io.IOException;
 
 
 public class JValorant {
-    private final String apiUrl = Config.unofficialUrl;
+    private final String apiUrl = Config.unofficialUrlV1;
 
     private final MMRHandler mmrHandler;
     private final MatchHandler matchHandler;

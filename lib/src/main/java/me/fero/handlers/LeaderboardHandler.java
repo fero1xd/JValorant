@@ -2,7 +2,6 @@ package me.fero.handlers;
 
 import me.fero.Config;
 import me.fero.api.GetLeaderboardResult;
-import me.fero.entities.LeaderboardUser;
 import me.fero.enums.Region;
 import me.fero.errors.ApiError;
 import me.fero.io.Request;
@@ -20,7 +19,7 @@ public class LeaderboardHandler {
      * @throws IOException if something very bad happens
      */
     public GetLeaderboardResult getLeaderboard(Region region) throws ApiError, IOException {
-        Response response = Request.get(Config.unofficialUrl + "/leaderboard/" + region.name().toLowerCase());
+        Response response = Request.get(Config.unofficialUrlV1 + "/leaderboard/" + region.name().toLowerCase());
         return new GetLeaderboardResult(response);
     }
 
