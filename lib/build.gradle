@@ -9,6 +9,7 @@
 plugins {
     // Apply the java-library plugin for API and implementation separation.
     id 'java-library'
+    id 'maven-publish'
 }
 
 repositories {
@@ -20,6 +21,18 @@ sourceCompatibility = JavaVersion.VERSION_17
 targetCompatibility = JavaVersion.VERSION_17
 
 archivesBaseName = "JValorant"
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = 'com.github.fero1xd'
+            artifactId = 'JValorant'
+            version = '0.1.0'
+
+            from components.java
+        }
+    }
+}
 
 dependencies {
     // Use JUnit test framework.
@@ -34,3 +47,4 @@ dependencies {
     // Json Parser
     implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1'
 }
+
