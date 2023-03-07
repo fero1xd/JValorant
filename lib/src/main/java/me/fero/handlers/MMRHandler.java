@@ -23,6 +23,7 @@ public class MMRHandler implements IMMRHandler {
      * @throws ApiError if bad response
      * @throws IOException if something very bad happens
      */
+    @Override
     public UserMMRResult getMMRData(String name, String tag, Region region) throws ApiError, IOException {
         Response response = Request.get(Config.unofficialUrlV1 + "/mmr/" + region.name().toLowerCase() + "/" + name + "/" + tag);
         return new UserMMRResult(response);
@@ -36,6 +37,7 @@ public class MMRHandler implements IMMRHandler {
      * @throws ApiError if bad response
      * @throws IOException if something very bad happens
      */
+    @Override
     public UserMMRResult getMMRData(String puuid, Region region) throws ApiError, IOException {
         Response response = Request.get(Config.unofficialUrlV1 + "/by-puuid/mmr/" + region.name().toLowerCase() + "/" + puuid);
         return new UserMMRResult(response);
@@ -48,6 +50,7 @@ public class MMRHandler implements IMMRHandler {
      * @throws ApiError if bad response
      * @throws IOException if something very bad happens
      */
+    @Override
     public UserMMRResult getMMRData(AccountData account) throws ApiError, IOException {
         return getMMRData(account.name(), account.tag(), account.region());
     }
@@ -61,6 +64,7 @@ public class MMRHandler implements IMMRHandler {
      * @throws ApiError if bad response
      * @throws IOException if something very bad happens
      */
+    @Override
     public UserMMRHistoryResult getMMRHistory(String name, String tag, Region region) throws ApiError, IOException {
         Response response = Request.get(Config.unofficialUrlV1 + "/mmr-history/" + region.name().toLowerCase() + "/" +
                 name + "/" + tag);
@@ -75,6 +79,7 @@ public class MMRHandler implements IMMRHandler {
      * @throws ApiError if bad response
      * @throws IOException if something very bad happens
      */
+    @Override
     public UserMMRHistoryResult getMMRHistory(String puuid, Region region) throws ApiError, IOException {
         Response response = Request.get(Config.unofficialUrlV1 + "/by-puuid/mmr-history/" + region.name().toLowerCase() + "/" +
                 puuid);

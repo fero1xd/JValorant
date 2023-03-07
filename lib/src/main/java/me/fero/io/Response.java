@@ -12,6 +12,7 @@ import javax.annotation.Nullable;
 
 
 import static me.fero.Utils.isError;
+import static me.fero.Utils.isNull;
 
 public class Response {
 
@@ -70,11 +71,10 @@ public class Response {
             JSONObject e = (JSONObject) Config.parser.parse(originalErrors.get(i).toString());
             this.errors[i] = new ErrorStructure(Integer.parseInt(e.get("code").toString()),
                     e.getOrDefault("details", "").toString(),
-                    Boolean.parseBoolean(e.getOrDefault("global", false).toString()),
+                    isNull("global", e) ? null : Boolean.parseBoolean(e.get("global").toString()),
                     e.get("message").toString());
         }
     }
-
 
     public String getRawResponse() {
         return rawResponse;

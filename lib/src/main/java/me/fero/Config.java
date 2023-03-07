@@ -7,4 +7,5 @@ public class Config {
     public static String unofficialUrlV1 = "https://api.henrikdev.xyz/valorant/v1";
 
     public static String unofficialUrlV2 = "https://api.henrikdev.xyz/valorant/v2";
+    public static String unofficialUrlV3 = "https://api.henrikdev.xyz/valorant/v3";
 }
