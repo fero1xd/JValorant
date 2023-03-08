@@ -2,7 +2,7 @@
 # JValorant
 
 JValorant is an easy to use library to interact with the Riot-Valorant API
-#### Version 0.1.0
+#### Version 0.1
 - Note: The library is not fully complete but you can find most of the stuff you are looking for
 
 
@@ -24,7 +24,7 @@ JValorant is an easy to use library to interact with the Riot-Valorant API
 - Add the dependency
 ```gradle
 dependencies {
-	    implementation 'com.github.fero1xd:JValorant:0.1.0'
+	    implementation 'com.github.fero1xd:JValorant:0.1'
 	}
 ```
 
@@ -46,7 +46,7 @@ dependencies {
 	<dependency>
 	    <groupId>com.github.fero1xd</groupId>
 	    <artifactId>JValorant</artifactId>
-	    <version>0.1.0</version>
+	    <version>0.1</version>
 	</dependency>
 
 
